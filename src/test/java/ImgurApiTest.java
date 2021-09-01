@@ -1,21 +1,36 @@
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.Test;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 
 public class ImgurApiTest extends BaseApiTest{
+    private String currentDeleteHash;
 
     public ImgurApiTest() throws IOException {
     }
+    @BeforeEach
+    void setUp() {
+        RestAssured.baseURI = getBaseUri();
+    }
+    @AfterEach
+    void tearDown() {
+    }
 
     @Test
-    @DisplayName("Get Account Information: ")
+    @DisplayName("Get Account Information / Получение инфо об аккаунте")
     void testGetAccountInfo() {
 
 
@@ -35,7 +50,7 @@ public class ImgurApiTest extends BaseApiTest{
     }
 
     @Test
-    @DisplayName("Get Album information: ")
+    @DisplayName("Get Album information / Получение инфо об альбоме")
     void testGetAlbum() {
 
         given()
@@ -56,7 +71,7 @@ public class ImgurApiTest extends BaseApiTest{
     }
 
     @Test
-    @DisplayName("Get Account images: ")
+    @DisplayName("Get Account images ")
     void testGetAccountImages() {
 
         given()
@@ -119,7 +134,7 @@ public class ImgurApiTest extends BaseApiTest{
 
     @Test
     @DisplayName("Create Comment: ")
-    void testCreateAComment() {
+    void testCreateComment() {
 
         given()
                 .contentType(ContentType.JSON)
@@ -152,5 +167,17 @@ public class ImgurApiTest extends BaseApiTest{
                 .when()
                 .get("comment/{commentId}", commentId)
                 .jsonPath();
+    }
+
+    @Test
+    @DisplayName("Delete current image")
+    void testDeleteCurrentImage() {
+        given()
+                .header("Authorization", token)
+                .when()
+                .delete("image/{imageHash}", imageDeleteHash)
+                .prettyPeek()
+                .then()
+                .statusCode(200);
     }
 }

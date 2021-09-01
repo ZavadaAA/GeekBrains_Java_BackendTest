@@ -4,7 +4,7 @@ abstract class BaseApiTest {
 
 
     private final String token;
-    private final String baseUri;
+    private final String baseUrl;
     private final String userName;
     private final String albumHash;
     private final String imageHash;
@@ -13,7 +13,7 @@ abstract class BaseApiTest {
     public BaseApiTest() throws IOException {
         scanner = new PropertyScanner();
         token = scanner.getProperty("imgur.auth.token");
-        baseUri = scanner.getProperty("imgur.api.url");
+        baseUrl = scanner.getProperty("imgur.api.url");
         userName = scanner.getProperty("imgur.username");
         albumHash = scanner.getProperty("imgur.albumHash");
         imageHash = scanner.getProperty("imgur.imageHash");
@@ -24,7 +24,7 @@ abstract class BaseApiTest {
     }
 
     public String getBaseUri() {
-        return baseUri;
+        return baseUrl;
     }
 
     public String getUserName() {
