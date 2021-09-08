@@ -14,6 +14,8 @@ import io.restassured.internal.common.assertion.Assertion;
 import org.junit.jupiter.api.DisplayName;
 import static org.junit.Assert.assertEquals;
 
+import org.opentest4j.AssertionFailedError;
+
 
 public class ApiTest {
 
